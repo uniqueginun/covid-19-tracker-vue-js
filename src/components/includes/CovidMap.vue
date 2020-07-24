@@ -23,6 +23,7 @@
         >
           <l-popup>
             <div>
+              <img :src="cntry.countryFlag" width="100%" height="40" />
               <p>
                 Name: {{ cntry.countryName }}
                 <br />

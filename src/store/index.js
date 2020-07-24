@@ -43,6 +43,7 @@ export default new Vuex.Store({
     mapData: state => {
       return state.countries.map(cntry => ({
         countryName: cntry.country,
+        countryFlag: cntry.countryInfo.flag,
         cases: cntry.cases,
         geoMertry: {
           lat: cntry.countryInfo.lat,
