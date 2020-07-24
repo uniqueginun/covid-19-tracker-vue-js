@@ -1,28 +1,40 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-  </div>
+  <v-app class="app__main">
+    <v-main>
+      <CovidTrackerMain />
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import CovidTrackerMain from "./components/CovidTrackerMain";
 
 export default {
   name: "App",
+
   components: {
-    HelloWorld
+    CovidTrackerMain
+  },
+
+  data: () => ({
+    //
+  }),
+
+  methods: {
+    async fetchCovidData() {
+      await this.$store.dispatch("getCountries");
+      await this.$store.dispatch("getDataForCountry");
+    }
+  },
+
+  mounted() {
+    this.fetchCovidData();
   }
 };
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style scoped>
+.app__main {
+  padding: 1rem 2rem;
 }
 </style>
