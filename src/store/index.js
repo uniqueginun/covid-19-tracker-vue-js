@@ -39,6 +39,23 @@ export default new Vuex.Store({
           cases: country.cases
         };
       });
+    },
+    mapData: state => {
+      return state.countries.map(cntry => ({
+        countryName: cntry.country,
+        cases: cntry.cases,
+        geoMertry: {
+          lat: cntry.countryInfo.lat,
+          long: cntry.countryInfo.long
+        },
+        summary: {
+          active: cntry.active,
+          deaths: cntry.deaths,
+          recovered: cntry.recovered,
+          todayCases: cntry.todayCases,
+          tests: cntry.tests
+        }
+      }));
     }
   },
   mutations: {

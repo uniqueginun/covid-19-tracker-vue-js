@@ -11,30 +11,37 @@
         @update:zoom="zoomUpdate"
       >
         <l-tile-layer :url="url" :attribution="attribution" />
-        <l-marker :lat-lng="withPopup">
+        <l-circle
+          v-for="(cntry, index) in mapData"
+          :key="index"
+          :lat-lng="getLongLat(cntry.geoMertry)"
+          :weight="2"
+          :radius="Math.sqrt(cntry.cases * 20000)"
+          fillColor="#f56565"
+          :fillOpacity="0.5"
+          color="#e53e3e"
+        >
           <l-popup>
-            <div @click="innerClick">
-              I am a popup
-              <p v-show="showParagraph">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-                sed pretium nisl, ut sagittis sapien. Sed vel sollicitudin nisi.
-                Donec finibus semper metus id malesuada.
+            <div>
+              <p>
+                Name: {{ cntry.countryName }}
+                <br />
+                Cases: {{ cntry.cases }}
+                <br />
+                Active: {{ cntry.summary.active }}
+                <br />
+                Recovered: {{ cntry.summary.recovered }}
+                <br />
+                Deaths: {{ cntry.summary.deaths }}
+                <br />
+                Today Cases: {{ cntry.summary.todayCases }}
+                <br />
+                Tests: {{ cntry.summary.tests }}
+                <br />
               </p>
             </div>
           </l-popup>
-        </l-marker>
-        <l-marker :lat-lng="withTooltip">
-          <l-tooltip :options="{ permanent: true, interactive: true }">
-            <div @click="innerClick">
-              I am a tooltip
-              <p v-show="showParagraph">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-                sed pretium nisl, ut sagittis sapien. Sed vel sollicitudin nisi.
-                Donec finibus semper metus id malesuada.
-              </p>
-            </div>
-          </l-tooltip>
-        </l-marker>
+        </l-circle>
       </l-map>
     </v-card>
   </v-container>
@@ -42,19 +49,19 @@
 
 <script>
 import { latLng } from "leaflet";
-import { LMap, LTileLayer, LMarker, LPopup, LTooltip } from "vue2-leaflet";
+import { LMap, LTileLayer, LPopup, LCircle } from "vue2-leaflet";
+import { mapGetters } from "vuex";
 
 export default {
   components: {
     LMap,
     LTileLayer,
-    LMarker,
     LPopup,
-    LTooltip
+    LCircle
   },
   data() {
     return {
-      zoom: 4,
+      zoom: 3,
       center: latLng(21.3891, 39.8579),
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       attribution:
@@ -82,7 +89,13 @@ export default {
     },
     innerClick() {
       alert("Click!");
-    }
+    },
+    getLongLat: ({ lat, long }) => latLng(lat, long)
+  },
+  computed: {
+    ...mapGetters({
+      mapData: "mapData"
+    })
   }
 };
 </script>
