@@ -16,7 +16,7 @@
           :key="index"
           :lat-lng="getLongLat(cntry.geoMertry)"
           :weight="2"
-          :radius="Math.sqrt(cntry.cases * 20000)"
+          :radius="getCircleRadius(cntry.cases)"
           fillColor="#f56565"
           :fillOpacity="0.5"
           color="#e53e3e"
@@ -78,6 +78,7 @@ export default {
     };
   },
   methods: {
+    getCircleRadius: cases => Math.sqrt(cases * 120000),
     zoomUpdate(zoom) {
       this.currentZoom = zoom;
     },
