@@ -1,3 +1,5 @@
+import numeral from "numeral";
+
 export const formatChartData = data => {
   const cases = data["cases"];
   const labels = Object.keys(cases).slice(1);
@@ -21,3 +23,6 @@ export const formatChartData = data => {
   ];
   return formatedData;
 };
+
+export const formatNumber = (num, format = "0.0a", extra = "+") =>
+  `${extra}${numeral(num).format(format)}`;

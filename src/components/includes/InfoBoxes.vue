@@ -6,10 +6,12 @@
           <v-list-item three-line>
             <v-list-item-content>
               <div class="overline mb-2">{{ item.title }}</div>
-              <v-list-item-title class="text-h6 mb-2">{{
-                item.cases
-              }}</v-list-item-title>
-              <v-list-item-subtitle>{{ item.total }}</v-list-item-subtitle>
+              <v-list-item-title class="text-h4 mb-2 cases-current">
+                {{ item.cases }}
+              </v-list-item-title>
+              <v-list-item-subtitle
+                >{{ item.total }} Total</v-list-item-subtitle
+              >
             </v-list-item-content>
           </v-list-item>
         </v-card>
@@ -28,3 +30,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.cases-current {
+  color: #ff1744;
+}
+</style>

@@ -4,6 +4,7 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 import get from "../api";
+import { formatNumber } from "../utils";
 
 export default new Vuex.Store({
   state: {
@@ -26,8 +27,8 @@ export default new Vuex.Store({
       return casesType.map(type => {
         return {
           title: type,
-          cases: data[`today${type}`],
-          total: data[`${type.toLowerCase()}`]
+          cases: formatNumber(data[`today${type}`]),
+          total: formatNumber(data[`${type.toLowerCase()}`])
         };
       });
     },
@@ -36,7 +37,7 @@ export default new Vuex.Store({
       return state.countries.map(country => {
         return {
           country: country.country,
-          cases: country.cases
+          cases: formatNumber(country.cases, "0,0", "")
         };
       });
     },

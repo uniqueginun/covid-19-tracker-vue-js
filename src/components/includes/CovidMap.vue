@@ -79,7 +79,7 @@ export default {
     };
   },
   methods: {
-    getCircleRadius: cases => Math.sqrt(cases * 120000),
+    getCircleRadius: cases => Math.sqrt(cases * 1000000),
     zoomUpdate(zoom) {
       this.currentZoom = zoom;
     },
