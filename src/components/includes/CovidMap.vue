@@ -17,9 +17,9 @@
           :lat-lng="getLongLat(cntry.geoMertry)"
           :weight="2"
           :radius="getCircleRadius(cntry.cases)"
-          fillColor="#f56565"
+          :fillColor="cntry.caseColor"
           :fillOpacity="0.5"
-          color="#e53e3e"
+          :color="cntry.caseFillColor"
         >
           <l-popup>
             <div>

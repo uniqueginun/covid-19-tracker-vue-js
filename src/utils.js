@@ -25,4 +25,19 @@ export const formatChartData = data => {
 };
 
 export const formatNumber = (num, format = "0.0a", extra = "+") =>
-  `${extra}${numeral(num).format(format)}`;
+  `${num && extra}${numeral(num).format(format)}`;
+
+export const StateTypeDictionary = {
+  cases: {
+    color: "#FFEE58",
+    fillColor: "#FDD835"
+  },
+  recovered: {
+    color: "#00E676",
+    fillColor: "#76FF03"
+  },
+  deaths: {
+    color: "#f56565",
+    fillColor: "#e53e3e"
+  }
+};

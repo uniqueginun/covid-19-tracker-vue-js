@@ -5,12 +5,14 @@ Vue.use(Vuex);
 
 import get from "../api";
 import { formatNumber } from "../utils";
+import { StateTypeDictionary } from "../utils";
 
 export default new Vuex.Store({
   state: {
     countries: [],
     selectedCountry: "worldwide",
-    countryData: {}
+    countryData: {},
+    currentMapState: "cases"
   },
   getters: {
     countries(state) {
@@ -45,17 +47,19 @@ export default new Vuex.Store({
       return state.countries.map(cntry => ({
         countryName: cntry.country,
         countryFlag: cntry.countryInfo.flag,
-        cases: cntry.cases,
+        cases: cntry[state.currentMapState],
+        caseColor: StateTypeDictionary[state.currentMapState].color,
+        caseFillColor: StateTypeDictionary[state.currentMapState].fillColor,
         geoMertry: {
           lat: cntry.countryInfo.lat,
           long: cntry.countryInfo.long
         },
         summary: {
-          active: cntry.active,
-          deaths: cntry.deaths,
-          recovered: cntry.recovered,
-          todayCases: cntry.todayCases,
-          tests: cntry.tests
+          active: formatNumber(cntry.active, "0,0", ""),
+          deaths: formatNumber(cntry.deaths, "0,0", ""),
+          recovered: formatNumber(cntry.recovered, "0,0", ""),
+          todayCases: formatNumber(cntry.todayCases, "0,0", ""),
+          tests: formatNumber(cntry.tests, "0,0", "")
         }
       }));
     }
@@ -63,7 +67,8 @@ export default new Vuex.Store({
   mutations: {
     SET_COUNTRIES: (state, payload) => (state.countries = payload),
     SET_SELECTED_COUNTRY: (state, payload) => (state.selectedCountry = payload),
-    SET_COUNTRY_DATA: (state, payload) => (state.countryData = payload)
+    SET_COUNTRY_DATA: (state, payload) => (state.countryData = payload),
+    SET_MAP_STATE: (state, payload) => (state.currentMapState = payload)
   },
   actions: {
     async getCountries({ commit }) {
