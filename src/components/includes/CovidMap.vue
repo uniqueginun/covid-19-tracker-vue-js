@@ -62,15 +62,9 @@ export default {
   },
   data() {
     return {
-      zoom: 3,
-      center: latLng(21.3891, 39.8579),
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       attribution:
         '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-      withPopup: latLng(21.3891, 39.8579),
-      withTooltip: latLng(47.41422, -1.250482),
-      currentZoom: 11.5,
-      currentCenter: latLng(21.3891, 39.8579),
       showParagraph: false,
       mapOptions: {
         zoomSnap: 0.5
@@ -81,10 +75,10 @@ export default {
   methods: {
     getCircleRadius: cases => Math.sqrt(cases * 1000000),
     zoomUpdate(zoom) {
-      this.currentZoom = zoom;
+      this.$store.commit("ZOOM_UPDATE", zoom);
     },
     centerUpdate(center) {
-      this.currentCenter = center;
+      this.$store.commit("CENTER_UPDATE", center);
     },
     showLongText() {
       this.showParagraph = !this.showParagraph;
@@ -96,7 +90,12 @@ export default {
   },
   computed: {
     ...mapGetters({
-      mapData: "mapData"
+      mapData: "mapData",
+      currentLatLong: "currentLatLong",
+      zoom: "zoom",
+      center: "center",
+      currentZoom: "currentZoom",
+      currentCenter: "currentCenter"
     })
   }
 };
