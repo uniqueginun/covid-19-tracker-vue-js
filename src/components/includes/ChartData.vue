@@ -19,10 +19,13 @@ export default {
   },
   computed: {
     renderChart() {
-      return !this.loading; // this.datacollection.datasets?.length;
+      return !this.loading;
     },
     datacollection() {
-      return formatChartData(this.$store.getters.historicalData);
+      return formatChartData(
+        this.$store.getters.historicalData,
+        this.$store.getters.stateColors.fillColor
+      );
     }
   },
 
