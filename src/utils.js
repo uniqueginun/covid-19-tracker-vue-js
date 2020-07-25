@@ -1,7 +1,6 @@
 import numeral from "numeral";
 
-export const formatChartData = data => {
-  const cases = data["cases"];
+export const formatChartData = (cases, color = "darkgray") => {
   const labels = Object.keys(cases).slice(1);
   let dataSet = [];
   let prevItemValue;
@@ -15,8 +14,8 @@ export const formatChartData = data => {
   formatedData.labels = labels;
   formatedData.datasets = [
     {
-      label: "Dialy new cases for last 30 days",
-      backgroundColor: "darkgray",
+      label: `Dialy new cases for last 30 days`,
+      backgroundColor: color,
       data: dataSet,
       fill: "origin"
     }

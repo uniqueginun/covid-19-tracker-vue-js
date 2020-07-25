@@ -12,9 +12,11 @@ export default new Vuex.Store({
     countries: [],
     selectedCountry: "worldwide",
     countryData: {},
-    currentMapState: "cases"
+    currentMapState: "cases",
+    historicalData: null
   },
   getters: {
+    stateColors: state => StateTypeDictionary[state.currentMapState],
     countries(state) {
       let countries = state.countries.map(country => ({
         text: country.country,
@@ -30,7 +32,8 @@ export default new Vuex.Store({
         return {
           title: type,
           cases: formatNumber(data[`today${type}`]),
-          total: formatNumber(data[`${type.toLowerCase()}`])
+          total: formatNumber(data[`${type.toLowerCase()}`]),
+          active: type.toLowerCase() === state.currentMapState.toLowerCase()
         };
       });
     },
@@ -62,13 +65,15 @@ export default new Vuex.Store({
           tests: formatNumber(cntry.tests, "0,0", "")
         }
       }));
-    }
+    },
+    historicalData: state => state.historicalData[state.currentMapState]
   },
   mutations: {
     SET_COUNTRIES: (state, payload) => (state.countries = payload),
     SET_SELECTED_COUNTRY: (state, payload) => (state.selectedCountry = payload),
     SET_COUNTRY_DATA: (state, payload) => (state.countryData = payload),
-    SET_MAP_STATE: (state, payload) => (state.currentMapState = payload)
+    SET_MAP_STATE: (state, payload) => (state.currentMapState = payload),
+    SET_HISTORICAL_DATA: (state, payload) => (state.historicalData = payload)
   },
   actions: {
     async getCountries({ commit }) {
@@ -81,6 +86,11 @@ export default new Vuex.Store({
       const url = country === "worldwide" ? "all" : `countries/${country}`;
       const data = await get(url);
       commit("SET_COUNTRY_DATA", data);
+    },
+
+    async getHistoricalData({ commit }, period = 120) {
+      const response = await get(`historical/all?lastdays=${period}`);
+      commit("SET_HISTORICAL_DATA", response);
     }
   }
 });

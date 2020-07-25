@@ -6,29 +6,30 @@
 
 <script>
 import ChartItem from "../../charts/Chart.js";
-import get from "../../api.js";
 import { formatChartData } from "../../utils.js";
 
 export default {
   components: {
     ChartItem
   },
-  data: () => {
+  data() {
     return {
-      datacollection: []
+      loading: true
     };
   },
-
   computed: {
     renderChart() {
-      return this.datacollection.datasets?.length;
+      return !this.loading; // this.datacollection.datasets?.length;
+    },
+    datacollection() {
+      return formatChartData(this.$store.getters.historicalData);
     }
   },
 
   methods: {
     async grabData() {
-      const response = await get("historical/all?lastdays=121");
-      this.datacollection = formatChartData(response);
+      await this.$store.dispatch("getHistoricalData");
+      this.loading = false;
     }
   },
 

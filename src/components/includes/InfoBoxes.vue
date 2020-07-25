@@ -6,6 +6,11 @@
           @click="setMapState(item)"
           class="mx-auto card-item"
           max-width="344"
+          :style="{
+            borderTop: item.active
+              ? `4px solid ${$store.getters.stateColors.fillColor}`
+              : 'none'
+          }"
         >
           <v-list-item three-line>
             <v-list-item-content>
