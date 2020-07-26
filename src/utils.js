@@ -1,7 +1,9 @@
 import numeral from "numeral";
+import store from "./store";
 
 export const formatChartData = (cases, color = "darkgray") => {
   const labels = Object.keys(cases).slice(1);
+  const { selectedCountry, currentMapState } = store.getters;
   let dataSet = [];
   let prevItemValue;
   for (const dateItem in cases) {
@@ -14,7 +16,7 @@ export const formatChartData = (cases, color = "darkgray") => {
   formatedData.labels = labels;
   formatedData.datasets = [
     {
-      label: `Dialy new cases for last 30 days`,
+      label: `${selectedCountry} daily new ${currentMapState} for last 30 days`,
       backgroundColor: color,
       data: dataSet,
       fill: "origin"

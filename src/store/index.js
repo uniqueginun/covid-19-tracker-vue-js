@@ -21,6 +21,7 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    currentMapState: state => state.currentMapState,
     zoom: state => state.mapSettings.zoom,
     center: state =>
       latLng(
@@ -102,17 +103,22 @@ export default new Vuex.Store({
       commit("SET_COUNTRIES", data);
     },
 
-    async getDataForCountry({ commit }, country = "worldwide") {
+    async getDataForCountry({ commit, dispatch }, country = "worldwide") {
       commit("SET_SELECTED_COUNTRY", country);
       const url = country === "worldwide" ? "all" : `countries/${country}`;
       const data = await get(url);
       commit("SET_COUNTRY_DATA", data);
       commit("SET_CURRENT_ZOOM", 5);
+      await dispatch("getHistoricalData");
     },
 
-    async getHistoricalData({ commit }, period = 120) {
-      const response = await get(`historical/all?lastdays=${period}`);
-      commit("SET_HISTORICAL_DATA", response);
+    async getHistoricalData({ commit, getters }, period = 30) {
+      let global = getters.selectedCountry === "worldwide";
+      const uri = global ? "all" : getters.selectedCountry;
+      const fullURL = `historical/${uri}?lastdays=${period}`;
+      const response = await get(fullURL);
+      const data = global ? response : response.timeline;
+      commit("SET_HISTORICAL_DATA", data);
     }
   }
 });

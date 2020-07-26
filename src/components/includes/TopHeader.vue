@@ -33,8 +33,8 @@ export default {
   },
 
   methods: {
-    countrySelected(country) {
-      this.$store.dispatch("getDataForCountry", country);
+    async countrySelected(country) {
+      await this.$store.dispatch("getDataForCountry", country);
     }
   }
 };
