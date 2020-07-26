@@ -3,17 +3,20 @@
     <v-main>
       <CovidTrackerMain />
     </v-main>
+    <FooterInfo />
   </v-app>
 </template>
 
 <script>
 import CovidTrackerMain from "./components/CovidTrackerMain";
+import FooterInfo from "./components/FooterInfo.vue";
 
 export default {
   name: "App",
 
   components: {
-    CovidTrackerMain
+    CovidTrackerMain,
+    FooterInfo
   },
 
   data: () => ({
